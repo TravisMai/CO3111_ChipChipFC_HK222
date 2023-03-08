@@ -6,32 +6,33 @@ import glob
 import shutil
 import cv2
 
-def Webcam_720p():
-    cap.set(3,1280)
-    cap.set(4,720)
+# def Webcam_720p():
+#     cap.set(3,1280)
+#     cap.set(4,720)
 
-cap = cv2.VideoCapture(0)
-Webcam_720p()
+# cap = cv2.VideoCapture(0)
+# Webcam_720p()
 
-while(True):
+# while(True):
       
-    # Capture the video frame
-    # by frame
-    ret, frame = cap.read()
+#     # Capture the video frame
+#     # by frame
+#     ret, frame = cap.read()
   
-    # Display the resulting frame
-    cv2.imshow('frame', frame)
+#     # Display the resulting frame
+#     cv2.imshow('frame', frame)
       
-    # the 'q' button is set as the
-    # quitting button you may use any
-    # desired button of your choice
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+#     # the 'q' button is set as the
+#     # quitting button you may use any
+#     # desired button of your choice
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         break
   
-# After the loop release the cap object
-cap.release()
-# Destroy all the windows
-cv2.destroyAllWindows()
+# # After the loop release the cap object
+# cap.release()
+# # Destroy all the windows
+# cv2.destroyAllWindows()
+
 # os.environ["DATASET_DIRECTORY"] = "/content/datasets"
 
 # # ------------------------------------------
@@ -52,4 +53,3 @@ cv2.destroyAllWindows()
 #         shutil.rmtree('runs/detect/exp/')
 #     os.system("python detect.py --weights runs/train/exp/weights/best.pt --img 640 --conf 0.1 --source ../datasets/{}/test/images".format(proj_folder))
 
-torch.py
