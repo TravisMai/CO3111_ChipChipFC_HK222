@@ -33,8 +33,7 @@ import cv2
 # # Destroy all the windows
 # cv2.destroyAllWindows()
 
-model = torch.load("best.pt")
-image = Image.open("example.jpg")
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp/weights/last.pt', force_reload=True) # image = Image.open("example.jpg")
 
 os.environ["DATASET_DIRECTORY"] = "/content/datasets"
 
