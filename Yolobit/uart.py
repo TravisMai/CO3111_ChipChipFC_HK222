@@ -32,6 +32,9 @@ def processData(data):
     if splitData[1] == "LUX":
         global luxury
         luxury = splitData[2]
+    if splitData[1] == "SM":
+        global smm
+        smm = splitData[2]
 
 def getTemp():
     return temperature
@@ -41,6 +44,9 @@ def getHumi():
 
 def getLux():
     return luxury
+
+def getSm():
+    return smm
 
 def uart_write(data):
     ser.write((str(data) ).encode())
