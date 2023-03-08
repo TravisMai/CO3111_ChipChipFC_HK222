@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 cam = cv2.VideoCapture(0)
 # Load the model
-model = load_model('keras_model.h5')
+model = load_model('C:\\Users\\EmChes\\OneDrive - wtpvf\\Documents\\GitHub\\CO3111_AIOT_HK222\\Yolobit\\keras_model.h5')
 
 
 
