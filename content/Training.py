@@ -33,9 +33,9 @@ import cv2
 # # Destroy all the windows
 # cv2.destroyAllWindows()
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp/weights/last.pt', force_reload=True) # image = Image.open("example.jpg")
-
-os.environ["DATASET_DIRECTORY"] = "/content/datasets"
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp/weights/best.pt', force_reload=True) # image = Image.open("example.jpg")
+dataset_path = os.getcwd() + "/datasets"
+os.environ["DATASET_DIRECTORY"] = dataset_path
 
 # ------------------------------------------
 # please name a project in roboflow not upper caps
@@ -47,7 +47,8 @@ path = f"/content/datasets/{proj_folder}/data.yaml"
 
 rf = Roboflow(api_key="kZbzfRVKlT9GZeRpVHRv")
 project = rf.workspace("mohamed-traore-2ekkp").project("face-detection-mik1i")
-dataset = project.version(ver_num).download("yolov5")
+if not os.path.exists(dataset_path):
+    dataset = project.version(ver_num).download("yolov5")
 # # ------------------------------------------
 
 
