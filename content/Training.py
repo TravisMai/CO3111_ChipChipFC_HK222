@@ -33,14 +33,24 @@ import cv2
 # # Destroy all the windows
 # cv2.destroyAllWindows()
 
-# os.environ["DATASET_DIRECTORY"] = "/content/datasets"
+model = torch.load("best.pt")
+image = Image.open("example.jpg")
 
+os.environ["DATASET_DIRECTORY"] = "/content/datasets"
+
+# ------------------------------------------
+# please name a project in roboflow not upper caps
+proj_name = "Face-Detection"
+ver_num = "9"
+proj_folder = proj_name + "-" + ver_num
+path = f"/content/datasets/{proj_folder}/data.yaml"
+# ------------------------------------------
+
+rf = Roboflow(api_key="kZbzfRVKlT9GZeRpVHRv")
+project = rf.workspace("mohamed-traore-2ekkp").project("face-detection-mik1i")
+dataset = project.version(ver_num).download("yolov5")
 # # ------------------------------------------
-# proj_name = "tri-and-khuong"
-# ver_num = "2"
-# proj_folder = proj_name + "-" + ver_num
-# proj_path = f"/content/datasets/{proj_folder}/data.yaml"
-# # ------------------------------------------
+
 
 # # rf = Roboflow(api_key="h4b0dmWWk0vEHM6Ocacd")
 # # project = rf.workspace("bach-khoa-6k2sk").project(proj_name)
