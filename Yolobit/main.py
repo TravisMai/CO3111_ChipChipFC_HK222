@@ -3,8 +3,8 @@ import sys
 import paho.mqtt.client as mqtt
 import time
 import os
-from uart import *
-from simple_ai import *
+# from uart import *
+# from simple_ai import *
 # hostname = "google.com"
 
 MQTT_SERVER = "mqtt.ohstem.vn"
