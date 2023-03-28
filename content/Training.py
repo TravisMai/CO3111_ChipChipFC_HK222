@@ -33,24 +33,27 @@ import cv2
 # # Destroy all the windows
 # cv2.destroyAllWindows()
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp/weights/best.pt', force_reload=True) # image = Image.open("example.jpg")
-dataset_path = os.getcwd() + "/datasets"
-os.environ["DATASET_DIRECTORY"] = dataset_path
+# model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp/weights/best.pt', force_reload=True) # image = Image.open("example.jpg")
+# dataset_path = os.getcwd() + "/datasets"
+# os.environ["DATASET_DIRECTORY"] = dataset_path
 
-# ------------------------------------------
-# please name a project in roboflow not upper caps
-proj_name = "Face-Detection"
-ver_num = "9"
-proj_folder = proj_name + "-" + ver_num
-path = f"/content/datasets/{proj_folder}/data.yaml"
-# ------------------------------------------
-
-rf = Roboflow(api_key="kZbzfRVKlT9GZeRpVHRv")
-project = rf.workspace("mohamed-traore-2ekkp").project("face-detection-mik1i")
-if not os.path.exists(dataset_path):
-    dataset = project.version(ver_num).download("yolov5")
+# # ------------------------------------------
+# # please name a project in roboflow not upper caps
+# proj_name = "Face-Detection"
+# ver_num = "9"
+# proj_folder = proj_name + "-" + ver_num
+# path = f"/content/datasets/{proj_folder}/data.yaml"
 # # ------------------------------------------
 
+# rf = Roboflow(api_key="kZbzfRVKlT9GZeRpVHRv")
+# project = rf.workspace("mohamed-traore-2ekkp").project("face-detection-mik1i")
+# if not os.path.exists(dataset_path):
+#     dataset = project.version(ver_num).download("yolov5")
+# ------------------------------------------
+current_directory_path = os.path.abspath(os.path.join(__file__, "..\..\content"))
+print('__file__:    ', current_directory_path)
+cmd = "python {0}\yolov5/detect.py --source img.jpg  --weights {0}\yolov5/runs/train/exp/weights/best.pt --img 640 --conf 0.25".format(current_directory_path)   
+os.system(cmd)
 
 # # rf = Roboflow(api_key="h4b0dmWWk0vEHM6Ocacd")
 # # project = rf.workspace("bach-khoa-6k2sk").project(proj_name)
