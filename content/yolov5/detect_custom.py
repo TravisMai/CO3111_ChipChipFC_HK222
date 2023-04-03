@@ -33,7 +33,7 @@ import os
 import platform
 import sys
 from pathlib import Path
-
+import utils
 import torch
 
 FILE = Path(__file__).resolve()
@@ -73,7 +73,7 @@ def run(
         project=ROOT / 'runs/detect',  # save results to project/name
         name='exp',  # save results to project/name
         exist_ok=False,  # existing project/name ok, do not increment
-        line_thickness=3,  # bounding box thickness (pixels)
+        line_thickness=2.5,  # bounding box thickness (pixels)
         hide_labels=False,  # hide labels
         hide_conf=False,  # hide confidences
         half=False,  # use FP16 half-precision inference

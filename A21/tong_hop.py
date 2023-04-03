@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import torch
 from time import time
+import os
 from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 from PyQt5.QtCore import QThread, pyqtSignal
@@ -10,7 +11,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from gui import Ui_MainWindow
 
-
+current_directory_path = os.path.abspath(os.path.join(__file__, "..\..\content"))
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -90,7 +91,7 @@ class live_stream(QThread):
         :return: Trained Pytorch model.
         """
         # model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
-        model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5s.pt')
+        model = torch.hub.load('ultralytics/yolov5', 'custom', path='{0}\yolov5/runs/train/exp/weights/best.pt'.format(current_directory_path))
         # model = torch.hub.load('yolov5-master', 'custom', path='yolov5s.pt', source='local')
         return model
 
@@ -158,7 +159,7 @@ class live_stream(QThread):
             frame = self.plot_boxes(results, frame)
             end_time = time()
             fps = 1 / (np.round(end_time - start_time, 3))
-            print(f"Frames Per Second : {round(fps, 2)} FPS")
+            # print(f"Frames Per Second : {round(fps, 2)} FPS")
             # out.write(frame)
             self.signal.emit(frame)
             if not self.gg:
@@ -179,4 +180,5 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_win = MainWindow()
     main_win.show()
+
     sys.exit(app.exec())
