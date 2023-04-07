@@ -2,8 +2,12 @@ print("Hello AIOT Python")
 import sys
 import paho.mqtt.client as mqtt
 import time
+import random
 import os
-from uart import *
+# from uart import *
+current_directory_path = os.path.abspath(os.path.join(__file__, "../../"))
+print(current_directory_path)
+sys.path.insert(1, '{0}'.format(current_directory_path))
 from content import AI_Run
 
 AIO_FEED_ID = ["nutnhan1", "nutnhan2", "signal"]
@@ -48,24 +52,26 @@ counter_ai = 10
 counter_connect = 10
 while True:
     time.sleep(1)
-    readSerial()            
+    # readSerial()            
     counter_sensor = counter_sensor - 1
     if counter_sensor <=0:
         counter_sensor = 20
-        lux = getLux()
+        lux = random.randint(1,99)
+        print(lux)
         adaClient.publish("EmChes/feeds/cambien3",lux)
     if counter_sensor == 15:
-        humi = getHumi()
+        humi = random.randint(1,99)
         adaClient.publish("EmChes/feeds/cambien2",humi)
     if counter_sensor == 10:
-        temp = getTemp()
+        temp = random.randint(1,99)
         adaClient.publish("EmChes/feeds/cambien1",temp)
         
     counter_ai = counter_ai - 1
     if counter_ai <=0:
         counter_ai = 15
         # AI_Run.image_capture()
-        ai_result = AI_Run.ai_capture()
-        if ai_result == "yes mask": lmeo = 1
-        else: lmeo = 0
+        ai_result, image = AI_Run.ai_capture()
+        # if ai_result == "yes mask": lmeo = 1
+        # else: lmeo = 0
         adaClient.publish("EmChes/feeds/AI", ai_result)
+        adaClient.publish("EmChes/feeds/image", image)

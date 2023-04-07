@@ -1,4 +1,5 @@
 ######### Library import #########
+import base64
 import os
 import sys
 from PIL import Image, ImageOps
@@ -20,19 +21,22 @@ import detect_custom
 def image_capture():
     ret,frame = cam.read()
     cv2.imwrite("{0}/input.png".format(current_directory_path),frame)
+    frame = cv2.resize(frame,(224,224), interpolation=cv2.INTER_LINEAR)
+    data = base64.b64encode(frame)
+    return data
 
 def ai_capture():    
     global opt
-    image_capture()
+    data = image_capture()
     opt = detect_custom.parse_opt()
     opt.source = "{0}/input.png".format(current_directory_path)
     opt.weights = "{0}/yolov5/runs/train/exp/weights/best.pt".format(current_directory_path)
-    opt.imgsz = (640, 640)
+    opt.imgsz = (224, 224)
     opt.conf_thres = 0.25
     opt.nosave = True
     opt.hide_conf = True
     detect_custom.main(opt)
-    return detect_custom.publish_result
+    return detect_custom.publish_result, data
 pass
 
 
@@ -41,14 +45,14 @@ pass
 
                  
 
-while True:
-    # replace this with your logic to receive the signal from the server
+# while True:
+#     # replace this with your logic to receive the signal from the server
     
-    result = ai_capture()
+#     result = ai_capture()
 
-    print(result)
+#     print(result)
     
-    time.sleep(10)
+#     time.sleep(10)
 
 
     
