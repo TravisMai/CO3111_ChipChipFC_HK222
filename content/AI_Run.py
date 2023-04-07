@@ -32,7 +32,7 @@ def ai_capture():
     opt.nosave = True
     opt.hide_conf = True
     detect_custom.main(opt)
-    return detect_custom.det
+    return detect_custom.publish_result
 pass
 
 
