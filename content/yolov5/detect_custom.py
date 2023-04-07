@@ -49,7 +49,7 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, smart_inference_mode
 #############################################
-reading_signal = 0;
+det = 0;
 #############################################
 
 @smart_inference_mode()
@@ -139,6 +139,7 @@ def run(
             # pred = utils.general.apply_classifier(pred, classifier_model, im, im0s)
 
             # Process predictions
+            global det
             for i, det in enumerate(pred):  # per image
                 seen += 1
                 if webcam:  # batch_size >= 1

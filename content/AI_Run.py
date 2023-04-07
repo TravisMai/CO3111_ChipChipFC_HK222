@@ -31,6 +31,8 @@ def ai_capture():
     opt.conf_thres = 0.25
     opt.nosave = True
     opt.hide_conf = True
+    detect_custom.main(opt)
+    return detect_custom.det
 pass
 
 
@@ -41,11 +43,11 @@ pass
 
 while True:
     # replace this with your logic to receive the signal from the server
-    image_capture()
-    ai_capture()
-    detect_custom.reading_signal = detect_custom.reading_signal^1
-    print(detect_custom.reading_signal)
-    detect_custom.main(opt)
+    
+    result = ai_capture()
+
+    print(result)
+    
     time.sleep(10)
 
 
