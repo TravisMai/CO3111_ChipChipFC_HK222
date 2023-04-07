@@ -23,6 +23,7 @@ def image_capture():
 
 def ai_capture():    
     global opt
+    image_capture()
     opt = detect_custom.parse_opt()
     opt.source = "{0}/input.png".format(current_directory_path)
     opt.weights = "{0}/yolov5/runs/train/exp/weights/best.pt".format(current_directory_path)

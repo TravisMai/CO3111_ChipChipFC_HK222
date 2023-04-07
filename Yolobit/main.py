@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 import time
 import os
 from uart import *
-from simple_ai import *
+from content import AI_Run
 
 AIO_FEED_ID = ["nutnhan1", "nutnhan2", "signal"]
 AIO_USERNAME = "EmChes"
@@ -64,8 +64,8 @@ while True:
     counter_ai = counter_ai - 1
     if counter_ai <=0:
         counter_ai = 15
-        image_capture()
-        ai_result = image_detector()
+        # AI_Run.image_capture()
+        ai_result = AI_Run.ai_capture()
         if ai_result == "yes mask": lmeo = 1
         else: lmeo = 0
         adaClient.publish("EmChes/feeds/AI", ai_result)
