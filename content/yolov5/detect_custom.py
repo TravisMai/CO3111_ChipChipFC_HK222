@@ -51,6 +51,7 @@ from utils.torch_utils import select_device, smart_inference_mode
 #############################################
 det = 0;
 publish_result = "(no detections)"
+im0 = ""
 #############################################
 
 @smart_inference_mode()
@@ -140,7 +141,7 @@ def run(
             # pred = utils.general.apply_classifier(pred, classifier_model, im, im0s)
 
             # Process predictions
-            global det
+            global det, im0
             for i, det in enumerate(pred):  # per image
                 seen += 1
                 if webcam:  # batch_size >= 1
