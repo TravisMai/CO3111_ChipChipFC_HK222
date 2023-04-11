@@ -51,7 +51,7 @@ from utils.torch_utils import select_device, smart_inference_mode
 #############################################
 det = 0;
 publish_result = "(no detections)"
-im0 = ""
+annotate_image = ""
 #############################################
 
 @smart_inference_mode()
@@ -182,7 +182,9 @@ def run(
                             save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
                 # Stream results
+                global annotate_image
                 im0 = annotator.result()
+                annotate_image = annotator.result()
                 if view_img:
                     if platform.system() == 'Linux' and p not in windows:
                         windows.append(p)
