@@ -21,8 +21,9 @@ import detect_custom
 def image_capture():
     ret,frame = cam.read()
     cv2.imwrite("{0}/input.png".format(current_directory_path),frame)
-    frame = cv2.resize(frame,(224,224), interpolation=cv2.INTER_LINEAR)
-    data = base64.b64encode(frame)
+    image = cv2.resize(frame,(223,223),interpolation=cv2.INTER_AREA)
+    res, image = cv2.imencode('.png',image)
+    data = base64.b64encode(image)
     return data
 
 def ai_capture():    
