@@ -27,6 +27,7 @@ def image_capture():
     return data
 
 def image_transform():
+    cv2.imwrite("{0}/input_detect.png".format(current_directory_path),detect_custom.im0)
     compress_image = cv2.resize(detect_custom.im0,(223,223),interpolation=cv2.INTER_AREA)
     res, compress_image = cv2.imencode('.png',compress_image)
     data = base64.b64encode(compress_image)
