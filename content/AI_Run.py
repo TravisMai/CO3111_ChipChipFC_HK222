@@ -19,17 +19,22 @@ import detect_custom
 
 
 def image_capture():
-    # ret,frame = cam.read()
-    # cv2.imwrite("{0}/input.png".format(current_directory_path),frame)
-    frame = detect_custom.im0
+    ret,frame = cam.read()
+    cv2.imwrite("{0}/input.png".format(current_directory_path),frame)
     image = cv2.resize(frame,(223,223),interpolation=cv2.INTER_AREA)
     res, image = cv2.imencode('.png',image)
     data = base64.b64encode(image)
     return data
 
+def image_transform():
+    compress_image = cv2.resize(detect_custom.im0,(223,223),interpolation=cv2.INTER_AREA)
+    res, compress_image = cv2.imencode('.png',compress_image)
+    data = base64.b64encode(compress_image)
+    return data
+
 def ai_capture():    
     global opt
-    data = image_capture()
+    image_capture()
     opt = detect_custom.parse_opt()
     opt.source = "{0}/input.png".format(current_directory_path)
     opt.weights = "{0}/yolov5/runs/train/exp/weights/best.pt".format(current_directory_path)
@@ -38,6 +43,8 @@ def ai_capture():
     opt.nosave = True
     opt.hide_conf = True
     detect_custom.main(opt)
+    data = image_transform()
+
     return detect_custom.publish_result, data
 pass
 
