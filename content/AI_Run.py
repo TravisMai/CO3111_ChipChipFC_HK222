@@ -42,7 +42,7 @@ def ai_capture():
     opt.imgsz = (224, 224)
     opt.conf_thres = 0.25
     opt.nosave = True
-    opt.hide_conf = True
+    opt.hide_conf = False
     detect_custom.main(opt)
     data = image_transform()
 
