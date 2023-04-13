@@ -1,0 +1,33 @@
+{
+  "cwd": "D:\\AIOTapp",
+  "type": [
+    "web",
+    "pwa",
+    "cordova"
+  ],
+  "name": "AIFarm",
+  "pkg": "io.framework7.myapp",
+  "framework": "react",
+  "template": "tabs",
+  "cssPreProcessor": false,
+  "bundler": "vite",
+  "cordova": {
+    "folder": "cordova",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "plugins": [
+      "cordova-plugin-statusbar",
+      "cordova-plugin-keyboard",
+      "cordova-plugin-splashscreen"
+    ]
+  },
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkMode": false,
+    "iconFonts": true
+  },
+  "customBuild": false
+}
