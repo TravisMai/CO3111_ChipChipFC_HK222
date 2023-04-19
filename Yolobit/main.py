@@ -12,7 +12,7 @@ from content import AI_Run
 
 AIO_FEED_ID = ["nutnhan1", "nutnhan2", "signal"]
 AIO_USERNAME = "EmChes"
-AIO_KEY = "aio_wCGR89A77KUjmXjciAdqFTPJKX5L"
+AIO_KEY = "aio_jwjT59maC5PDDYyK5tgy3GOrnBjy"
 ADA_TOPIC = [AIO_USERNAME + "/feeds/" +  ids for ids in AIO_FEED_ID]
 ADA_SERVER = "io.adafruit.com"
 
