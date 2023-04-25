@@ -23,8 +23,10 @@
     "last 5 Firefox versions"
   ],
   "dependencies": {
+    "cordova": "^11.1.0",
     "dom7": "^4.0.6",
     "framework7": "^8.0.1",
+    "framework7-cli": "^8.0.1",
     "framework7-icons": "^5.0.5",
     "framework7-react": "^8.0.1",
     "material-icons": "^1.13.4",

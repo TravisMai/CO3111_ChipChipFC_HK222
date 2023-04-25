@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardContent,
   CardFooter,
+  useState,
+  useEffect,
 } from 'framework7-react';
 
 const HomePage = () => {
@@ -18,6 +20,18 @@ const HomePage = () => {
   const humidity = 60;
   const light = 800;
   const anotherMetric = 1234;
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch("https://io.adafruit.com/api/v2/phudinh153/feeds/cambien1")
+      .then((response) => response.json())
+      .then((data) => {
+      setData(data);
+      console.log(data);
+    })
+      
+      .catch((error) => console.error(error));
+  }, []);
 
   const cardStyle = {
     height: '90%',
