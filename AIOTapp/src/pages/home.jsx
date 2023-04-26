@@ -23,6 +23,10 @@ const HomePage = () => {
         const response = await fetch(`https://io.adafruit.com/api/v2/phudinh153/groups/default`, {
           headers: {
             'X-AIO-Key': 'aio_Ysia79rQha42BqRwEiLZNuuBgkAK'
+            //aio_jwjT59maC5PDDYyK5tgy3GOrnBjy Nghiakey
+            //aio_Ysia79rQha42BqRwEiLZNuuBgkAK
+            //https://io.adafruit.com/api/v2/EmChes/groups/default
+            //https://io.adafruit.com/api/v2/phudinh153/groups/default
           }
         });
         const data = await response.json();
@@ -63,7 +67,7 @@ const HomePage = () => {
     ...cardStyle
   };
   let tempWarning = 'Normal';
-  temperature = 50
+  
   if(temperature < 20){
     tempStyle = {
       ...cardStyle,
