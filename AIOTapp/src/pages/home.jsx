@@ -9,17 +9,17 @@ import {
   CardHeader,
   CardContent,
   CardFooter,
-  useState,
-  useEffect,
+
 } from 'framework7-react';
+import { useState, useEffect } from 'react';
 
 const HomePage = () => {
   // Here you could fetch data from a backend API or from a local store
   // and set it to state or props to pass it to the different components below
-  const temperature = 25;
-  const humidity = 60;
-  const light = 800;
-  const anotherMetric = 1234;
+  let temperature = 25;
+  let humidity = 60;
+  let light = 800;
+  let anotherMetric = 1234;
 
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -32,7 +32,7 @@ const HomePage = () => {
       
       .catch((error) => console.error(error));
   }, []);
-
+  temperature = data.last_value;
   const cardStyle = {
     height: '90%',
     width: '80%',
