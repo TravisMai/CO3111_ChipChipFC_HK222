@@ -33,7 +33,7 @@ const HomePage = () => {
       }
     };
     fetchData();
-    const intervalId = setInterval(fetchData, 10000);
+    const intervalId = setInterval(fetchData, 20000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -45,7 +45,7 @@ const HomePage = () => {
   let temperature = data.feeds[1].last_value;
   let humidity = data.feeds[2].last_value;
   let light = data.feeds[3].last_value;
-  let anotherMetric = 1234;
+  let moisture = 60;
 
   const blockTitle = {
     fontSize: '22px',
@@ -58,6 +58,186 @@ const HomePage = () => {
     width: '80%',
   };
 
+  let tempStyle = {
+    ...cardStyle
+  };
+  let tempWarning = 'Normal';
+  temperature = 50
+  if(temperature < 20){
+    tempStyle = {
+      ...cardStyle,
+      color: 'white',
+      backgroundColor: '#52B1D2',
+    };
+    tempWarning = 'Cold'
+  }
+  else if(temperature >= 20 && temperature < 35){
+    tempStyle = {
+      ...cardStyle,
+      color: 'gray',
+      backgroundColor: 'yellow',
+    };
+  }
+  else if(temperature >= 35 && temperature < 50){
+    tempStyle = {
+      ...cardStyle,
+      color: 'red',
+      backgroundColor: 'yellow',
+    };
+    tempWarning = 'Hot'
+  }
+  else if(temperature >= 50){
+    tempStyle = {
+      ...cardStyle,
+      color: 'white',
+      backgroundColor: 'red',
+      border: '2px solid',
+      borderColor: 'red'
+    };
+    tempWarning = 'Too Hot'
+  }
+
+  let humStyle = {
+    ...cardStyle
+  }; 
+  
+  let humWarning = 'Normal';
+
+  if(humidity < 20){
+    humStyle = {
+      ...cardStyle,
+      color: 'red',
+      backgroundColor: '#05192C',
+      border: '3px solid',
+      //borderColor: 'red'
+    };
+    humWarning = 'Too Dry'
+  }
+  else if(humidity >= 20 && humidity < 40){
+    humStyle = {
+      ...cardStyle,
+      color: 'red',
+      backgroundColor: '#D0AE8B',
+      border: '3px solid',
+      borderColor: 'red'
+    };
+    humWarning = 'Dry'
+  }
+  else if(humidity >= 40 && humidity < 60){
+    humStyle = {
+      ...cardStyle,
+      color: 'white',
+      backgroundColor: '#E8E4E2',
+    };
+  }
+  else if(humidity >= 60 && humidity < 90){
+    humStyle = {
+      ...cardStyle,
+      color: 'white',
+      backgroundColor: '#73CCD8',
+    };
+  }
+  else if(humidity >= 90){
+    humStyle = {
+      ...cardStyle,
+      color: 'red',
+      backgroundColor: '#52B1D2',
+      border: '3px solid',
+      borderColor: 'red'
+    };
+    humWarning = 'Wet'
+  }
+
+  let lightStyle = {
+    ...cardStyle
+  }; 
+
+  let lightWarning = 'Normal'
+
+  if(light < 100){
+    lightStyle = {
+      ...cardStyle,
+      color: 'white',
+      backgroundColor: '#D14009',
+    };
+    lightWarning = 'Well-lighted'
+  }
+  else if(light >= 100 && light < 200){
+    lightStyle = {
+      ...cardStyle,
+      color: 'white',
+      backgroundColor: '#FFCC33',
+    };
+  }
+  else if(light >= 200 && light < 300){
+    lightStyle = {
+      ...cardStyle,
+      color: 'gray',
+      backgroundColor: '#FFE484',
+    };
+    lightWarning = 'Bright'
+  }
+  else if(light >= 300){
+    lightStyle = {
+      ...cardStyle,
+      color: 'red',
+      backgroundColor: '#FFFFFF',
+      border: '3px solid',
+    };
+    lightWarning = 'Too Bright'
+  }
+
+  let moiStyle = {
+    ...cardStyle
+  }
+
+  let moiWarning = 'Normal';
+
+  if(moisture < 20){
+    moiStyle = {
+      ...cardStyle,
+      color: 'red',
+      backgroundColor: '#483226',
+      border: '3px solid',
+      //borderColor: 'red'
+    };
+    moiWarning = 'Too Dry'
+  }
+  else if(moisture >= 20 && moisture < 40){
+    moiStyle = {
+      ...cardStyle,
+      color: 'red',
+      backgroundColor: '#604832',
+      border: '3px solid',
+      borderColor: 'red'
+    };
+    moiWarning = 'Dry'
+  }
+  else if(moisture >= 40 && moisture < 60){
+    moiStyle = {
+      ...cardStyle,
+      color: 'gray',
+      backgroundColor: '#D4F1FA',
+    };
+  }
+  else if(moisture >= 60 && moisture < 75){
+    moiStyle = {
+      ...cardStyle,
+      color: 'white',
+      backgroundColor: '#A4F4F9',
+    };
+  }
+  else if(moisture >= 75){
+    moiStyle = {
+      ...cardStyle,
+      color: 'red',
+      backgroundColor: '#7CEAF9',
+      border: '3px solid',
+      borderColor: 'red'
+    };
+    moiWarning = 'Wet'
+  }  
+
   return (
     <Page>
       <BlockTitle style={blockTitle}>Metrics</BlockTitle>
@@ -65,15 +245,15 @@ const HomePage = () => {
        
           <List>
             <ListItem>
-              <Card style={cardStyle}>
+              <Card style={tempStyle}>
                 <CardHeader>Temperature</CardHeader>
                 <CardContent>{temperature} &#8451;</CardContent>
-                <CardFooter>Updated 10 seconds ago</CardFooter>
+                <CardContent> Status: {tempWarning}</CardContent>
               </Card>
-              <Card style={cardStyle}>
+              <Card style={humStyle}>
                 <CardHeader>Humidity</CardHeader>
                 <CardContent>{humidity} %</CardContent>
-                <CardFooter>Updated 10 seconds ago</CardFooter>
+                <CardContent>Status: {humWarning}</CardContent>
               </Card>
             </ListItem>
     
@@ -82,15 +262,15 @@ const HomePage = () => {
         
           <List>
             <ListItem>
-              <Card style={cardStyle}>
+              <Card style={lightStyle}>
                 <CardHeader>Light</CardHeader>
                 <CardContent>{light} lux</CardContent>
-                <CardFooter>Updated 10 seconds ago</CardFooter>
+                <CardContent> Status: {lightWarning}</CardContent>
               </Card>
-              <Card style={cardStyle}>
-                <CardHeader>Another Metric</CardHeader>
-                <CardContent>{anotherMetric}</CardContent>
-                <CardFooter>Updated 10 seconds ago</CardFooter>
+              <Card style={moiStyle}>
+                <CardHeader>Moisture</CardHeader>
+                <CardContent>{moisture}</CardContent>
+                <CardContent>Status: {moiWarning}</CardContent>
               </Card>
             </ListItem>
           </List>
