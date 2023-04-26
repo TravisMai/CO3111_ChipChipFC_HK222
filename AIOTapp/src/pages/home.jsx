@@ -47,15 +47,15 @@ const HomePage = () => {
   let light = data.feeds[3].last_value;
   let anotherMetric = 1234;
 
-  const cardStyle = {
-    height: '90%',
-    width: '80%',
-  };
-
   const blockTitle = {
     fontSize: '22px',
     marginBottom: '5px',
     padding: '3px',
+  };
+
+  const cardStyle = {
+    height: '90%',
+    width: '80%',
   };
 
   return (
