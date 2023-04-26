@@ -8,12 +8,12 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardFooter,
 } from 'framework7-react';
 
 const HomePage = () => {
   // Here you could fetch data from a backend API or from a local store
   // and set it to state or props to pass it to the different components below
+
 
   const [data, setData] = useState({});
 
@@ -46,6 +46,7 @@ const HomePage = () => {
   let humidity = data.feeds[2].last_value;
   let light = data.feeds[3].last_value;
   let moisture = 60;
+
 
   const blockTitle = {
     fontSize: '22px',
