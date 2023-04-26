@@ -106,7 +106,7 @@ const MyApp = () => {
           <Toolbar tabbar icons bottom>
             <Link tabLink="#view-home" tabLinkActive iconIos="f7:house_fill" iconMd="material:home" text="Home" />
             <Link tabLink="#view-detect" iconIos="f7:square_list_fill" iconMd="material:view_list" text="Detect" />
-            <Link tabLink="#view-settings" iconIos="f7:gear" iconMd="material:settings" text="Settings" />
+            <Link tabLink="#view-settings" iconIos="f7:gear" iconMd="material:settings" text="User" />
           </Toolbar>
 
           {/* Your main view/tab, should have "view-main" class. It also has "tabActive" prop */}
