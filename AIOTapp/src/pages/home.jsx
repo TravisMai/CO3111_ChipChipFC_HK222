@@ -8,6 +8,8 @@ import {
   Card,
   CardHeader,
   CardContent,
+  Button,
+  Segmented,
 } from 'framework7-react';
 
 const HomePage = () => {
@@ -20,9 +22,9 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://io.adafruit.com/api/v2/phudinh153/groups/default`, {
+        const response = await fetch(`https://io.adafruit.com/api/v2/EmChes/groups/default`, {
           headers: {
-            'X-AIO-Key': 'aio_Ysia79rQha42BqRwEiLZNuuBgkAK'
+            'X-AIO-Key': 'aio_jwjT59maC5PDDYyK5tgy3GOrnBjy'
             //aio_jwjT59maC5PDDYyK5tgy3GOrnBjy Nghiakey
             //aio_Ysia79rQha42BqRwEiLZNuuBgkAK
             //https://io.adafruit.com/api/v2/EmChes/groups/default
@@ -37,7 +39,7 @@ const HomePage = () => {
       }
     };
     fetchData();
-    const intervalId = setInterval(fetchData, 20000);
+    const intervalId = setInterval(fetchData, 10000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -46,8 +48,12 @@ const HomePage = () => {
     return null; 
   }
 
-  let temperature = data.feeds[1].last_value;
-  let humidity = data.feeds[2].last_value;
+  // let temperature = data.feeds[1].last_value;
+  // let humidity = data.feeds[2].last_value;
+  // let light = data.feeds[3].last_value;
+  // let moisture = 60;
+  let temperature = data.feeds[7].last_value;
+  let humidity = data.feeds[1].last_value;
   let light = data.feeds[3].last_value;
   let moisture = 60;
 
@@ -241,7 +247,68 @@ const HomePage = () => {
       borderColor: 'red'
     };
     moiWarning = 'Wet'
-  }  
+  } 
+ 
+  const buttons = document.querySelectorAll('.button');
+  let buttonValue = 0;
+  
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      // remove active class from all buttons
+      buttons.forEach(button => button.classList.remove('button-active'));
+  
+      // add active class to clicked button
+      button.classList.add('button-active');
+  
+      // set buttonValue based on which button was clicked
+      if (button.textContent === 'ON') {
+        buttonValue = 1;
+      } else if (button.textContent === 'OFF') {
+        buttonValue = 2;
+      }
+    });
+  });
+
+const button1 = document.querySelector('.onBut');
+const button2 = document.querySelector('.offBut');
+
+button1.addEventListener('click', () => {
+  sendDataToAdafruit('button1');
+});
+
+button2.addEventListener('click', () => {
+  sendDataToAdafruit('button2');
+});
+
+function sendDataToAdafruit(buttonName) {
+  const feedKey = 'aio_jwjT59maC5PDDYyK5tgy3GOrnBjy';
+  const data = {
+    value: buttonName
+  };
+  
+  fetch(`https://io.adafruit.com/api/v2/your_username/feeds/${feedKey}/data`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-AIO-Key': 'aio_jwjT59maC5PDDYyK5tgy3GOrnBjy'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      console.log('Data sent to Adafruit IO:', data);
+    })
+    .catch(error => {
+      console.error('Error sending data to Adafruit IO:', error);
+    });
+}
+
+  
+  
+  let buttonStyle = {
+    backgroundColor: 'Blue',
+    color: 'white'
+  }
 
   return (
     <Page>
@@ -279,6 +346,13 @@ const HomePage = () => {
               </Card>
             </ListItem>
           </List>
+
+          <Block strong>
+          <div class="segmented">
+            <a class="button button-active onBut">ON</a>
+            <a class="button offBut">OFF</a>
+          </div>
+          </Block>
       
     </Page>
   );

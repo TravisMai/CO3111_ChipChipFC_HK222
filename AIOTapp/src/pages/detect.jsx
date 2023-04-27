@@ -25,7 +25,7 @@ const DetectPage = () => {
       }
     };
     fetchData();
-    const intervalId = setInterval(fetchData, 20000);
+    const intervalId = setInterval(fetchData, 10000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -35,8 +35,13 @@ const DetectPage = () => {
   if (!data || !data.feeds) {
     return null; 
   }
+  function getBase64Img(pic) {
+    pic = 'data:image/png;base64,' + pic;
+    console.log(pic);
+    return pic;
+    }
   if(data.feeds[2].last_value){
-    pic = data.feeds[2].last_value
+    pic = getBase64Img(data.feeds[2].last_value);
   }
   const cardStyle = {
     height: '90%',
@@ -54,7 +59,7 @@ const DetectPage = () => {
   return (
     <Page name="Detect"> 
       <BlockTitle style={blockTitle}>Detect</BlockTitle>
-        <Block>
+        <Block style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
           <img src={pic} style={cardStyle}></img>
        </Block>    
     </Page>
