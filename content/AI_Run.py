@@ -28,7 +28,7 @@ def image_capture():
 
 def image_transform():
     cv2.imwrite("{0}/input_detect.png".format(current_directory_path),detect_custom.annotate_image)
-    compress_image = cv2.resize(detect_custom.annotate_image,(250,180),interpolation=cv2.INTER_AREA)
+    compress_image = cv2.resize(detect_custom.annotate_image,(250,150),interpolation=cv2.INTER_AREA)
     res, compress_image = cv2.imencode('.png',compress_image)
     data = base64.b64encode(compress_image)
     return data
@@ -42,6 +42,9 @@ def ai_capture():
     opt.imgsz = (224, 224)
     opt.conf_thres = 0.5
     opt.line_thickness = 1
+    opt.exist_ok = True
+    opt.name = "output.png"
+    opt.project = "{0}/output".format(current_directory_path)
     detect_custom.main(opt)
     data = image_transform()
 

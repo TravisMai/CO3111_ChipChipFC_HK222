@@ -11,8 +11,8 @@ sys.path.insert(1, '{0}'.format(current_directory_path))
 from content import AI_Run
 
 AIO_FEED_ID = ["nutnhan1", "nutnhan2", "signal"]
-AIO_USERNAME = "EmChes"
-AIO_KEY = "aio_jwjT59maC5PDDYyK5tgy3GOrnBjy"
+AIO_USERNAME = "ChipchipFC"
+AIO_KEY = "aio_Glir96FKcj9POyTAR0udNa5ADxC6"
 ADA_TOPIC = [AIO_USERNAME + "/feeds/" +  ids for ids in AIO_FEED_ID]
 ADA_SERVER = "io.adafruit.com"
 
@@ -59,15 +59,15 @@ while True:
         lux = random.randint(1,99)
         # lux = getLux()
         print(lux)
-        adaClient.publish("EmChes/feeds/cambien3",lux)
+        adaClient.publish("ChipchipFC/feeds/cambien3",lux)
     if counter_sensor == 15:
         humi = random.randint(1,99)
         # humi = getHumi()
-        adaClient.publish("EmChes/feeds/cambien2",humi)
+        adaClient.publish("ChipchipFC/feeds/cambien2",humi)
     if counter_sensor == 10:
         temp = random.randint(1,99)
         # temp = getTemp()
-        adaClient.publish("EmChes/feeds/cambien1",temp)
+        adaClient.publish("ChipchipFC/feeds/cambien1",temp)
         
     counter_ai = counter_ai - 1
     if counter_ai <=0:
@@ -76,5 +76,5 @@ while True:
         ai_result, image = AI_Run.ai_capture()
         # if ai_result == "yes mask": lmeo = 1
         # else: lmeo = 0
-        adaClient.publish("EmChes/feeds/AI", ai_result)
-        adaClient.publish("EmChes/feeds/image", image)
+        adaClient.publish("ChipchipFC/feeds/AI", ai_result)
+        adaClient.publish("ChipchipFC/feeds/image", image)
