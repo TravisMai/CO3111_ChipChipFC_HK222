@@ -38,11 +38,10 @@ def ai_capture():
     image_capture()
     opt = detect_custom.parse_opt()
     opt.source = "{0}/input.png".format(current_directory_path)
-    opt.weights = "{0}/yolov5/runs/train/exp/weights/best.pt".format(current_directory_path)
+    opt.weights = "{0}/yolov5/runs/train/exp/weights/best_tree.pt".format(current_directory_path)
     opt.imgsz = (224, 224)
-    opt.conf_thres = 0.25
-    opt.nosave = True
-    opt.hide_conf = False
+    opt.conf_thres = 0.5
+    opt.line_thickness = 1
     detect_custom.main(opt)
     data = image_transform()
 
@@ -51,17 +50,17 @@ pass
 
 
 # cmd = "python {0}/segment/predict.py --weights yolov5s-seg.pt --img 640 --conf 0.4 --source data/images".format(current_directory_path)
-# cmd1 = "python {0}/yolov5/detect.py --source 0 --weights {0}/yolov5/runs/train/exp/weights/best.pt --img 640 --conf 0.25 --nosave --hide-conf".format(current_directory_path)   
+# cmd1 = "python {0}/yolov5/detect_custom.py --source {0}/input.png --weights {0}/yolov5/runs/train/exp/weights/best_tree.pt --img 640 --hide-conf --view-img --conf 0.25".format(current_directory_path)   
 
-                 
+
 
 # while True:
-#     # replace this with your logic to receive the signal from the server
+# #     # replace this with your logic to receive the signal from the server
     
-#     result = ai_capture()
+#     # result = ai_capture()
+#     os.system(cmd1)
+# #     print(result)
 
-#     print(result)
-    
 #     time.sleep(10)
 
 
