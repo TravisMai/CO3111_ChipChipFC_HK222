@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 import time
 import random
 import os
-from uart import *
+# from uart import *
 current_directory_path = os.path.abspath(os.path.join(__file__, "../../"))
 print(current_directory_path)
 sys.path.insert(1, '{0}'.format(current_directory_path))
@@ -33,7 +33,7 @@ def aiot_connected(client, userdata, flags, rc):
 def aiot_message(client , feed_id , payload):
     msg = payload.payload.decode('UTF-8')
     print("Data is from: " + payload.topic + ", Payload: " + msg)
-    uart_write(msg)
+    # uart_write(msg)
 
 adaClient = mqtt.Client()
 adaClient.username_pw_set(AIO_USERNAME, AIO_KEY)
@@ -52,21 +52,21 @@ counter_ai = 10
 counter_connect = 10
 while True:
     time.sleep(1)
-    readSerial()            
+    # readSerial()            
     counter_sensor = counter_sensor - 1
     if counter_sensor <=0:
         counter_sensor = 20
-        # lux = random.randint(1,99)
-        lux = getLux()
+        lux = random.randint(1,99)
+        # lux = getLux()
         print(lux)
         adaClient.publish("EmChes/feeds/cambien3",lux)
     if counter_sensor == 15:
-        # humi = random.randint(1,99)
-        humi = getHumi()
+        humi = random.randint(1,99)
+        # humi = getHumi()
         adaClient.publish("EmChes/feeds/cambien2",humi)
     if counter_sensor == 10:
-        # temp = random.randint(1,99)
-        temp = getTemp()
+        temp = random.randint(1,99)
+        # temp = getTemp()
         adaClient.publish("EmChes/feeds/cambien1",temp)
         
     counter_ai = counter_ai - 1
