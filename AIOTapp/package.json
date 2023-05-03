@@ -23,14 +23,17 @@
     "last 5 Firefox versions"
   ],
   "dependencies": {
+    "buffer": "^6.0.3",
     "cordova": "^11.1.0",
     "dom7": "^4.0.6",
     "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "framework7": "^8.0.1",
     "framework7-cli": "^8.0.1",
     "framework7-icons": "^5.0.5",
     "framework7-react": "^8.0.1",
     "material-icons": "^1.13.4",
+    "mqtt": "^4.3.7",
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

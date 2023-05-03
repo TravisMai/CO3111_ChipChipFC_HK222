@@ -14,11 +14,10 @@ import {
 } from 'framework7-react';
 
 const HomePage = () => {
-  // Here you could fetch data from a backend API or from a local store
-  // and set it to state or props to pass it to the different components below
 
 
   const [data, setData] = useState({});
+  const [toggleState, setToggleState] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +40,16 @@ const HomePage = () => {
     };
 
     const intervalId = setInterval(fetchData, 10000);
+
+    // Connect to Adafruit server and subscribe to updates
+    //https://io.adafruit.com/api/v2/webhooks/feed/9e6nKi5oamr3MaWSJid8goaoCnkw
+    //wss://io.adafruit.com/api/v2/phudinh153/feeds/nutnhan1
+    const connection = new WebSocket('wss://io.adafruit.com/api/v2/webhooks/feed/9e6nKi5oamr3MaWSJid8goaoCnkw');
+    connection.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setToggleState(data.value === '1');
+      console.log(data);
+    };
 
     return () => {
       clearInterval(intervalId);
@@ -262,28 +271,16 @@ const HomePage = () => {
     justifyContent: 'center',
   };
 
-const [toggleState, setToggleState] = useState(0);
 
-useEffect(() => {
-  // Connect to Adafruit server and subscribe to updates
-  const connection = new WebSocket('wss://io.adafruit.com/api/v2/phudinh153/feeds/nutnhan1');
-  connection.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    setToggleState(data.value === '1');
-  };
 
-  // Clean up function to disconnect from server when component unmounts
-  return () => {
-    connection.close();
-  };
-}, []);
 
 const handleToggleChange = (event) => {
   const value = event.target.checked ? 1 : 0;
+  
   const data = {
     "value": value
   };
-  fetch(`https://io.adafruit.com/api/v2/phudinh153/feeds/nutnhan1`, {
+  fetch('https://io.adafruit.com/api/v2/webhooks/feed/9e6nKi5oamr3MaWSJid8goaoCnkw', {
     method: 'POST',
     headers: {
       'X-AIO-Key': 'aio_Ysia79rQha42BqRwEiLZNuuBgkAK',
@@ -293,10 +290,12 @@ const handleToggleChange = (event) => {
   })
   .then(response => {
     console.log(response);
+    setToggleState(value);
   })
   .catch(error => {
     console.error(error);
   });
+
 }
 
   
@@ -350,12 +349,13 @@ const handleToggleChange = (event) => {
             <a class="button offBut">OFF</a>
           </div>
           </Block> */}
-          <List>
-            <ListItem title="Toggle">
-              <Toggle slot="after" checked={toggleState === 1} onChange={handleToggleChange}  />
+
+          <List simpleList strong outlineIos dividersIos>
+            <ListItem title="Pump" style={{ fontSize: "20px", color: "#005BC1", fontWeight: "600" }}>
+              <Toggle slot="after" onChange={handleToggleChange}/>
             </ListItem>
           </List>
-      
+          
     </Page>
   );
 };
