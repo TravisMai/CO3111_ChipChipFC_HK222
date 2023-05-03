@@ -39,8 +39,14 @@ const SettingsPage = () => (
         placeholder="Birth day"
         defaultValue="2014-04-30"
       ></ListInput>
+      <ListItem title="Toggle">
+        <Toggle slot="after" />
+      </ListItem>
 
-    </List>
+      </List>
+
+    
+    
 
     
   </Page>

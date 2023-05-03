@@ -19,7 +19,7 @@ const DetectPage = () => {
         });
         const data = await response.json();
         setData(data);
-        console.log(data);
+        //console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -37,7 +37,7 @@ const DetectPage = () => {
   }
   function getBase64Img(pic) {
     pic = 'data:image/png;base64,' + pic;
-    console.log(pic);
+    //console.log(pic);
     return pic;
     }
   if(data.feeds[2].last_value){
