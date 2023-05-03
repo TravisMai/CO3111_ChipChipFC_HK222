@@ -1,4 +1,4 @@
-# ChipchipFC
+# Smart Agricultural Tree Monitoring System
 * Lê Tuấn Hưng - 2052508
 * Mai Hữu Nghĩa - 2052612
 * Trần Trí Đạt - 2052443
