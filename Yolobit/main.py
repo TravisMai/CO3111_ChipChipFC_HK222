@@ -10,9 +10,9 @@ print(current_directory_path)
 sys.path.insert(1, '{0}'.format(current_directory_path))
 from content import AI_Run
 
-AIO_FEED_ID = ["nutnhan1", "nutnhan2", "signal"]
+AIO_FEED_ID = ["nutnhan1", "nutnhan2"]
 AIO_USERNAME = "ChipchipFC"
-AIO_KEY = "aio_Glir96FKcj9POyTAR0udNa5ADxC6"
+AIO_KEY = "aio_EYST94QnlM76E83MAGC9eE4L2bhC"
 ADA_TOPIC = [AIO_USERNAME + "/feeds/" +  ids for ids in AIO_FEED_ID]
 ADA_SERVER = "io.adafruit.com"
 
