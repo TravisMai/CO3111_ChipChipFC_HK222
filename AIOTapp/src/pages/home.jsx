@@ -35,7 +35,6 @@ const HomePage = () => {
         });
         const data = await response.json();
         setData(data);
-        setToggleState(data.feeds[4]?.last_value);
         console.log(data);
       } catch (error) {
         console.error(error);
@@ -284,13 +283,10 @@ const HomePage = () => {
   };
 
 
-
+ 
 
 const handleToggleChange = (event) => {
   const value = event.target.checked ? 1 : 0;
-  tog = !value;
-  const myCheckbox = document.querySelector('input[name="checkbox"]');
-  myCheckbox.removeAttribute('checked');
 
   const data = {
     "value": value
@@ -368,7 +364,7 @@ const handleToggleChange = (event) => {
 
           <List simpleList strong outlineIos dividersIos>
             <ListItem title="Pump" style={{ fontSize: "20px", color: "#005BC1", fontWeight: "600" }}>
-              <Toggle slot="after" checked={tog} onClick={handleToggleChange} />
+              <Toggle slot="after" defaultChecked={tog} onChange={handleToggleChange} />
             </ListItem>
           </List>
           
