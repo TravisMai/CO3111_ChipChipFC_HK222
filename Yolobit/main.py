@@ -48,8 +48,9 @@ adaClient.loop_start()
 counter = 0
 
 counter_sensor = 20
-counter_ai = 10
+counter_ai = 15
 counter_connect = 10
+ai_presult = ""
 while True:
     time.sleep(1)
     # readSerial()            
@@ -69,12 +70,21 @@ while True:
         # temp = getTemp()
         adaClient.publish("ChipchipFC/feeds/cambien1",temp)
         
-    counter_ai = counter_ai - 1
-    if counter_ai <=0:
-        counter_ai = 15
+    # counter_ai = counter_ai - 1
+    # if counter_ai <=0:
+    #     counter_ai = 15
         # AI_Run.image_capture()
-        ai_result, image = AI_Run.ai_capture()
-        # if ai_result == "yes mask": lmeo = 1
-        # else: lmeo = 0
+    
+    ai_result, image = AI_Run.ai_capture()
+    if ai_result != ai_presult or counter_ai <= 0:
+        ai_presult = ai_result
+        print("==========================")
+        print(ai_presult)
+        print(ai_result)
+        print("==========================")
         adaClient.publish("ChipchipFC/feeds/AI", ai_result)
         adaClient.publish("ChipchipFC/feeds/image", image)
+        counter_ai = 15
+    else:
+        counter_ai -= 1
+    
