@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Page, Navbar, List, ListItem, Block, Button, useStore, BlockTitle } from 'framework7-react';
+import { Page, Navbar, List, ListItem, Block, Button, useStore, BlockTitle,
+  Card,
+  CardHeader,
+  CardContent, } from 'framework7-react';
 
 
 const DetectPage = () => {
+  const linkApi = 'https://io.adafruit.com/api/v2/ChipchipFC/groups/default';
+  const keyChip = 'aio_EYST94QnlM76E83MAGC9eE4L2bhC';
   const [data, setData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://io.adafruit.com/api/v2/EmChes/groups/default`, {
+        const response = await fetch(linkApi, {
           headers: {
-            'X-AIO-Key': 'aio_jwjT59maC5PDDYyK5tgy3GOrnBjy'
+            'X-AIO-Key': keyChip
             //aio_jwjT59maC5PDDYyK5tgy3GOrnBjy Nghiakey
             //aio_Ysia79rQha42BqRwEiLZNuuBgkAK
             //https://io.adafruit.com/api/v2/EmChes/groups/default
@@ -43,9 +48,13 @@ const DetectPage = () => {
   if(data.feeds[2].last_value){
     pic = getBase64Img(data.feeds[2].last_value);
   }
+
+  let ai = data.feeds[0]?.last_value
+
   const cardStyle = {
-    height: '90%',
+    height: '70%',
     width: '80%',
+    color: 'red',
   };
   
 
@@ -61,7 +70,17 @@ const DetectPage = () => {
       <BlockTitle style={blockTitle}>Detect</BlockTitle>
         <Block style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
           <img src={pic} style={cardStyle}></img>
-       </Block>    
+       </Block>  
+       <Block>
+       <List>
+            <ListItem>
+              <Card style={cardStyle}>
+                <CardHeader>Detect: {ai}</CardHeader>
+              </Card>
+            </ListItem>
+    
+          </List>
+        </Block>  
     </Page>
   );
 };

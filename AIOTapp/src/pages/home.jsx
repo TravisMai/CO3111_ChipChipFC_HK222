@@ -15,16 +15,18 @@ import {
 
 const HomePage = () => {
 
-
+  const linkApi = 'https://io.adafruit.com/api/v2/ChipchipFC/groups/default';
+  const keyChip = 'aio_EYST94QnlM76E83MAGC9eE4L2bhC';
   const [data, setData] = useState({});
   const [toggleState, setToggleState] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://io.adafruit.com/api/v2/phudinh153/groups/default`, {
+        const response = await fetch(linkApi, {
           headers: {
-            'X-AIO-Key': 'aio_Ysia79rQha42BqRwEiLZNuuBgkAK'
+            'X-AIO-Key': keyChip
+            //aio_Glir96FKcj9POyTAR0udNa5ADxC6
             //aio_jwjT59maC5PDDYyK5tgy3GOrnBjy Nghiakey
             //aio_Ysia79rQha42BqRwEiLZNuuBgkAK
             //https://io.adafruit.com/api/v2/EmChes/groups/default
@@ -33,21 +35,23 @@ const HomePage = () => {
         });
         const data = await response.json();
         setData(data);
+        setToggleState(data.feeds[4]?.last_value);
         console.log(data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    const intervalId = setInterval(fetchData, 10000);
+    const intervalId = setInterval(fetchData, 5000);
 
     // Connect to Adafruit server and subscribe to updates
     //https://io.adafruit.com/api/v2/webhooks/feed/9e6nKi5oamr3MaWSJid8goaoCnkw
     //wss://io.adafruit.com/api/v2/phudinh153/feeds/nutnhan1
-    const connection = new WebSocket('wss://io.adafruit.com/api/v2/webhooks/feed/9e6nKi5oamr3MaWSJid8goaoCnkw');
+    //wws://io.adafruit.com/api/v2/webhooks/feed/8vkm4212ErmQT6y1kturLb1dnvzc
+    const connection = new WebSocket('wss://io.adafruit.com/api/v2/webhooks/feed/8vkm4212ErmQT6y1kturLb1dnvzc/notify');
     connection.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      setToggleState(data.value === '1');
+      console.log('websocket')
       console.log(data);
     };
 
@@ -61,9 +65,17 @@ const HomePage = () => {
     return null; 
   }
 
-  let temperature = data.feeds[1]?.last_value;
-  let humidity = data.feeds[2]?.last_value;
+  let temperature = data.feeds[6]?.last_value;
+  let humidity = data.feeds[1]?.last_value;
   let light = data.feeds[3]?.last_value;
+  let tog = data.feeds[4]?.last_value;
+  if(tog == 1){
+    tog = 1;
+  }
+  else{
+    tog = 0;
+  }
+  console.log(tog);
   let moisture = 60;
   // let temperature = data.feeds[7].last_value;
   // let humidity = data.feeds[1].last_value;
@@ -276,14 +288,17 @@ const HomePage = () => {
 
 const handleToggleChange = (event) => {
   const value = event.target.checked ? 1 : 0;
-  
+  tog = !value;
+  const myCheckbox = document.querySelector('input[name="checkbox"]');
+  myCheckbox.removeAttribute('checked');
+
   const data = {
     "value": value
   };
-  fetch('https://io.adafruit.com/api/v2/webhooks/feed/9e6nKi5oamr3MaWSJid8goaoCnkw', {
+  fetch('https://io.adafruit.com/api/v2/webhooks/feed/8vkm4212ErmQT6y1kturLb1dnvzc', {
     method: 'POST',
     headers: {
-      'X-AIO-Key': 'aio_Ysia79rQha42BqRwEiLZNuuBgkAK',
+      'X-AIO-Key': keyChip,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
@@ -297,6 +312,7 @@ const handleToggleChange = (event) => {
   });
 
 }
+
 
   
   let buttonStyle = {
@@ -352,7 +368,7 @@ const handleToggleChange = (event) => {
 
           <List simpleList strong outlineIos dividersIos>
             <ListItem title="Pump" style={{ fontSize: "20px", color: "#005BC1", fontWeight: "600" }}>
-              <Toggle slot="after" onChange={handleToggleChange}/>
+              <Toggle slot="after" checked={tog} onClick={handleToggleChange} />
             </ListItem>
           </List>
           
