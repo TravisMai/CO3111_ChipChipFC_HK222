@@ -367,6 +367,15 @@ const handleToggleChange = (event) => {
               <Toggle slot="after" defaultChecked={tog} onChange={handleToggleChange} />
             </ListItem>
           </List>
+
+          <Segmented>
+            <Button active={toggleState === 1} onClick={() => setToggleState(1)} onChange={handleToggleChange} >
+              ON
+            </Button>
+            <Button active={toggleState === 0} onClick={() => setToggleState(0)} onChange={handleToggleChange} >
+              OFF
+            </Button>
+          </Segmented>
           
     </Page>
   );
