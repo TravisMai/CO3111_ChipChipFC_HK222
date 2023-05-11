@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef }from 'react';
 import {
   Page,
   Block,
@@ -14,11 +14,12 @@ import {
 } from 'framework7-react';
 
 const HomePage = () => {
-
+ 
   const linkApi = 'https://io.adafruit.com/api/v2/ChipchipFC/groups/default';
-  const keyChip = 'aio_EYST94QnlM76E83MAGC9eE4L2bhC';
+  const keyChip = 'aio_icAv95gUHiLlsxtbcYTyd42KlFJL';
   const [data, setData] = useState({});
-  const [toggleState, setToggleState] = useState(0);
+  let [toggleState, setToggleState] = useState(0);
+  // let [button, setButtonState] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,13 +37,16 @@ const HomePage = () => {
         const data = await response.json();
         setData(data);
         console.log(data);
+        
       } catch (error) {
         console.error(error);
       }
     };
 
     const intervalId = setInterval(fetchData, 5000);
-
+    // if(tog != toggleState){
+    //   fetchData()
+    // }
     // Connect to Adafruit server and subscribe to updates
     //https://io.adafruit.com/api/v2/webhooks/feed/9e6nKi5oamr3MaWSJid8goaoCnkw
     //wss://io.adafruit.com/api/v2/phudinh153/feeds/nutnhan1
@@ -67,14 +71,35 @@ const HomePage = () => {
   let temperature = data.feeds[6]?.last_value;
   let humidity = data.feeds[1]?.last_value;
   let light = data.feeds[3]?.last_value;
-  let tog = data.feeds[4]?.last_value;
-  if(tog == 1){
-    tog = 1;
+  let tog = parseInt(data.feeds[4]?.last_value);
+  if(tog !== toggleState){
+    toggleState = tog;
   }
-  else{
-    tog = 0;
-  }
-  console.log(tog);
+  console.log(typeof tog);
+  console.log("Update: "+ tog);
+  
+  const fetchButton = async () => {
+    try {
+      const response = await fetch(linkApi, {
+        headers: {
+          'X-AIO-Key': keyChip
+          //aio_Glir96FKcj9POyTAR0udNa5ADxC6
+          //aio_jwjT59maC5PDDYyK5tgy3GOrnBjy Nghiakey
+          //aio_Ysia79rQha42BqRwEiLZNuuBgkAK
+          //https://io.adafruit.com/api/v2/EmChes/groups/default
+          //https://io.adafruit.com/api/v2/phudinh153/groups/default
+        }
+      });
+      const data = await response.json();
+      setData(data);
+      setToggleState(parseInt(data.feeds[4]?.last_value));
+      console.log(data);
+      
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   let moisture = 60;
   // let temperature = data.feeds[7].last_value;
   // let humidity = data.feeds[1].last_value;
@@ -283,11 +308,10 @@ const HomePage = () => {
   };
 
 
- 
 
-const handleToggleChange = (event) => {
-  const value = event.target.checked ? 1 : 0;
-
+let button = toggleState;
+const handleToggleChange = (value) => {
+  button = parseInt(value);
   const data = {
     "value": value
   };
@@ -302,19 +326,45 @@ const handleToggleChange = (event) => {
   .then(response => {
     console.log(response);
     setToggleState(value);
+    fetchButton();
   })
   .catch(error => {
     console.error(error);
   });
+  
 
 }
 
+  let pumpTitle = {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    color: '#005BC1',
+    fontWeight: '600',
+    fontSize: '25px',
 
-  
-  let buttonStyle = {
-    backgroundColor: 'Blue',
-    color: 'white'
   }
+  let buttonStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '95%',
+  };
+
+  let toggleStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    marginLeft: '20%',
+    border: '2px solid',
+    borderColor: '#005BC1',
+    borderRadius: '15px',
+  };
+
+  // let pumpTitle{
+  //   display: 'flex',
+  //   justifyContent: 'center',
+  //   width: '80%',
+  // };
 
   return (
     <Page>
@@ -324,15 +374,16 @@ const handleToggleChange = (event) => {
           <List>
             <ListItem>
               <Card style={tempStyle}>
-                <CardHeader>Temperature</CardHeader>
+                <CardHeader>Temp</CardHeader>
                 <CardContent>{temperature} &#8451;</CardContent>
-                <CardContent> Status: {tempWarning}</CardContent>
+                <CardContent>Status: {tempWarning}</CardContent>
               </Card>
               <Card style={humStyle}>
                 <CardHeader>Humidity</CardHeader>
                 <CardContent>{humidity} %</CardContent>
                 <CardContent>Status: {humWarning}</CardContent>
               </Card>
+              
             </ListItem>
     
           </List>
@@ -362,20 +413,23 @@ const handleToggleChange = (event) => {
           </div>
           </Block> */}
 
-          <List simpleList strong outlineIos dividersIos>
+          {/* <List simpleList strong outlineIos dividersIos>
             <ListItem title="Pump" style={{ fontSize: "20px", color: "#005BC1", fontWeight: "600" }}>
               <Toggle slot="after" defaultChecked={tog} onChange={handleToggleChange} />
             </ListItem>
-          </List>
+          </List> */}
 
-          <Segmented>
-            <Button active={toggleState === 1} onClick={() => setToggleState(1)} onChange={handleToggleChange} >
+          <List style={buttonStyle}>
+          <Segmented style={pumpTitle}>Pump</Segmented>
+          <Segmented style={toggleStyle}>
+            <Button onClick={() => handleToggleChange(1)}  className={(button) ? 'button-active' : ''}>
               ON
             </Button>
-            <Button active={toggleState === 0} onClick={() => setToggleState(0)} onChange={handleToggleChange} >
+            <Button onClick={() => handleToggleChange(0)} className={!(button) ? 'button-active' : ''}>
               OFF
             </Button>
           </Segmented>
+          </List>
           
     </Page>
   );

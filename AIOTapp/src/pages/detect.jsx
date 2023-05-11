@@ -7,7 +7,7 @@ import { Page, Navbar, List, ListItem, Block, Button, useStore, BlockTitle,
 
 const DetectPage = () => {
   const linkApi = 'https://io.adafruit.com/api/v2/ChipchipFC/groups/default';
-  const keyChip = 'aio_EYST94QnlM76E83MAGC9eE4L2bhC';
+  const keyChip = 'aio_icAv95gUHiLlsxtbcYTyd42KlFJL';
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -55,6 +55,7 @@ const DetectPage = () => {
     height: '70%',
     width: '80%',
     color: 'red',
+    marginLeft: '10px',
   };
   
 
@@ -75,7 +76,7 @@ const DetectPage = () => {
        <List>
             <ListItem>
               <Card style={cardStyle}>
-                <CardHeader>Detect: {ai}</CardHeader>
+                <CardHeader>Result: {ai}</CardHeader>
               </Card>
             </ListItem>
     
