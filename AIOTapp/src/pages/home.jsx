@@ -16,10 +16,10 @@ import {
 const HomePage = () => {
  
   const linkApi = 'https://io.adafruit.com/api/v2/ChipchipFC/groups/default';
-  const keyChip = 'aio_icAv95gUHiLlsxtbcYTyd42KlFJL';
+  const keyChip = 'aio_NCVK09W8FmQYLTfFBC8PYLEJwQjS';
   const [data, setData] = useState({});
   let [toggleState, setToggleState] = useState(0);
-  // let [button, setButtonState] = useState(0);
+  let [fanState, setFanState] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,12 +51,12 @@ const HomePage = () => {
     //https://io.adafruit.com/api/v2/webhooks/feed/9e6nKi5oamr3MaWSJid8goaoCnkw
     //wss://io.adafruit.com/api/v2/phudinh153/feeds/nutnhan1
     //wws://io.adafruit.com/api/v2/webhooks/feed/8vkm4212ErmQT6y1kturLb1dnvzc
-    const connection = new WebSocket('wss://io.adafruit.com/api/v2/webhooks/feed/8vkm4212ErmQT6y1kturLb1dnvzc/notify');
-    connection.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log('websocket')
-      console.log(data);
-    };
+    // const connection = new WebSocket('wss://io.adafruit.com/api/v2/webhooks/feed/8vkm4212ErmQT6y1kturLb1dnvzc/notify');
+    // connection.onmessage = (event) => {
+    //   const data = JSON.parse(event.data);
+    //   console.log('websocket')
+    //   console.log(data);
+    // };
 
     return () => {
       clearInterval(intervalId);
@@ -75,30 +75,14 @@ const HomePage = () => {
   if(tog !== toggleState){
     toggleState = tog;
   }
-  console.log(typeof tog);
   console.log("Update: "+ tog);
+  let fan = parseInt(data.feeds[5]?.last_value);
+  if(fan !== fanState){
+    fanState = fan;
+  }
+  console.log("Update fan: "+ fan);
   
-  const fetchButton = async () => {
-    try {
-      const response = await fetch(linkApi, {
-        headers: {
-          'X-AIO-Key': keyChip
-          //aio_Glir96FKcj9POyTAR0udNa5ADxC6
-          //aio_jwjT59maC5PDDYyK5tgy3GOrnBjy Nghiakey
-          //aio_Ysia79rQha42BqRwEiLZNuuBgkAK
-          //https://io.adafruit.com/api/v2/EmChes/groups/default
-          //https://io.adafruit.com/api/v2/phudinh153/groups/default
-        }
-      });
-      const data = await response.json();
-      setData(data);
-      setToggleState(parseInt(data.feeds[4]?.last_value));
-      console.log(data);
-      
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  
 
   let moisture = 60;
   // let temperature = data.feeds[7].last_value;
@@ -307,9 +291,42 @@ const HomePage = () => {
     justifyContent: 'center',
   };
 
+  const fetchButton = async () => {
+    try {
+      const response = await fetch(linkApi, {
+        headers: {
+          'X-AIO-Key': keyChip
+        }
+      });
+      const data = await response.json();
+      setData(data);
+      setToggleState(parseInt(data.feeds[4]?.last_value));
+      console.log(data);
+      
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  const fetchFan = async () => {
+    try {
+      const response = await fetch(linkApi, {
+        headers: {
+          'X-AIO-Key': keyChip
+        }
+      });
+      const data = await response.json();
+      setData(data);
+      setToggleState(parseInt(data.feeds[5]?.last_value));
+      console.log(data);
+      
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 let button = toggleState;
+
 const handleToggleChange = (value) => {
   button = parseInt(value);
   const data = {
@@ -325,15 +342,38 @@ const handleToggleChange = (value) => {
   })
   .then(response => {
     console.log(response);
-    setToggleState(value);
+    // setToggleState(value);
     fetchButton();
   })
   .catch(error => {
     console.error(error);
   });
-  
-
 }
+
+let fanButton = fanState;
+const handleFanChange = (value) => {
+  fanButton = parseInt(value);
+  const data = {
+    "value": value
+  };
+  fetch('https://io.adafruit.com/api/v2/webhooks/feed/HtoDxpFyZrLe51JAXTLKQVg32EG3', {
+    method: 'POST',
+    headers: {
+      'X-AIO-Key': keyChip,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    console.log(response);
+    setToggleState(value);
+    fetchFan();
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
+
 
   let pumpTitle = {
     display: 'flex',
@@ -360,11 +400,9 @@ const handleToggleChange = (value) => {
     borderRadius: '15px',
   };
 
-  // let pumpTitle{
-  //   display: 'flex',
-  //   justifyContent: 'center',
-  //   width: '80%',
-  // };
+  const handlePumpButton = (value) => {
+    setToggleState(value);
+  }
 
   return (
     <Page>
@@ -404,14 +442,6 @@ const handleToggleChange = (value) => {
             </ListItem>
           </List>
 
-          
-          {/* <Block strong>
-          <BlockTitle style={butStyle}>Pump</BlockTitle>
-          <div class="segmented">
-            <a class="button button-active onBut">ON</a>
-            <a class="button offBut">OFF</a>
-          </div>
-          </Block> */}
 
           {/* <List simpleList strong outlineIos dividersIos>
             <ListItem title="Pump" style={{ fontSize: "20px", color: "#005BC1", fontWeight: "600" }}>
@@ -420,12 +450,24 @@ const handleToggleChange = (value) => {
           </List> */}
 
           <List style={buttonStyle}>
-          <Segmented style={pumpTitle}>Pump</Segmented>
+          <Segmented style={pumpTitle}>Button 1:</Segmented>
           <Segmented style={toggleStyle}>
-            <Button onClick={() => handleToggleChange(1)}  className={(button) ? 'button-active' : ''}>
+            <Button onClick={() =>  handleToggleChange(1)}  className={(toggleState) ? 'button-active' : ''}>
               ON
             </Button>
-            <Button onClick={() => handleToggleChange(0)} className={!(button) ? 'button-active' : ''}>
+            <Button onClick={() =>  handleToggleChange(0)} className={!(toggleState) ? 'button-active' : ''}>
+              OFF
+            </Button>
+          </Segmented>
+          </List>
+
+          <List style={buttonStyle}>
+          <Segmented style={pumpTitle}>Button 2:</Segmented>
+          <Segmented style={toggleStyle}>
+            <Button onClick={() => handleFanChange(3)}  className={(fanState === 3) ? 'button-active' : ''}>
+              ON
+            </Button>
+            <Button onClick={() => handleFanChange(2)} className={(fanState === 2) ? 'button-active' : ''}>
               OFF
             </Button>
           </Segmented>

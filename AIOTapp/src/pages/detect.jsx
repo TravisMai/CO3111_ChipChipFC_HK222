@@ -7,7 +7,7 @@ import { Page, Navbar, List, ListItem, Block, Button, useStore, BlockTitle,
 
 const DetectPage = () => {
   const linkApi = 'https://io.adafruit.com/api/v2/ChipchipFC/groups/default';
-  const keyChip = 'aio_icAv95gUHiLlsxtbcYTyd42KlFJL';
+  const keyChip = 'aio_NCVK09W8FmQYLTfFBC8PYLEJwQjS';
   const [data, setData] = useState({});
 
   useEffect(() => {
