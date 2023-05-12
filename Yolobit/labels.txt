@@ -1,2 +1,0 @@
-no mask
-yes mask

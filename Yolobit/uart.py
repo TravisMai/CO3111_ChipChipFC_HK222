@@ -57,8 +57,6 @@ def readSerial():
     if (bytesToRead > 0):
         global mess
         mess = mess + ser.read(bytesToRead).decode("UTF-8")
-        # print("lmeolmeo lmeo")
-        # print(mess)
         while ("#" in mess) and ("!" in mess):
             
             start = mess.find("!")

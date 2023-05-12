@@ -1,10 +1,9 @@
-print("Hello AIOT Python")
 import sys
 import paho.mqtt.client as mqtt
 import time
 import random
 import os
-# from uart import *
+from uart import *
 current_directory_path = os.path.abspath(os.path.join(__file__, "../../"))
 print(current_directory_path)
 sys.path.insert(1, '{0}'.format(current_directory_path))
@@ -12,7 +11,7 @@ from content import AI_Run
 
 AIO_FEED_ID = ["nutnhan1", "nutnhan2"]
 AIO_USERNAME = "ChipchipFC"
-AIO_KEY = "aio_EYST94QnlM76E83MAGC9eE4L2bhC"
+AIO_KEY = "aio_WYXX50EfP9y2qzMtrnNQJBJqIEfz"
 ADA_TOPIC = [AIO_USERNAME + "/feeds/" +  ids for ids in AIO_FEED_ID]
 ADA_SERVER = "io.adafruit.com"
 
@@ -33,7 +32,7 @@ def aiot_connected(client, userdata, flags, rc):
 def aiot_message(client , feed_id , payload):
     msg = payload.payload.decode('UTF-8')
     print("Data is from: " + payload.topic + ", Payload: " + msg)
-    # uart_write(msg)
+    uart_write(msg)
 
 adaClient = mqtt.Client()
 adaClient.username_pw_set(AIO_USERNAME, AIO_KEY)
@@ -52,36 +51,23 @@ counter_ai = 15
 counter_connect = 10
 ai_presult = ""
 while True:
-    time.sleep(1)
+    time.sleep(2)
     # readSerial()            
     counter_sensor = counter_sensor - 1
     if counter_sensor <=0:
         counter_sensor = 20
-        lux = random.randint(1,99)
-        # lux = getLux()
-        print(lux)
+        lux = getLux()
         adaClient.publish("ChipchipFC/feeds/cambien3",lux)
     if counter_sensor == 15:
-        humi = random.randint(1,99)
-        # humi = getHumi()
+        humi = getHumi()
         adaClient.publish("ChipchipFC/feeds/cambien2",humi)
     if counter_sensor == 10:
-        temp = random.randint(1,99)
-        # temp = getTemp()
+        temp = getTemp()
         adaClient.publish("ChipchipFC/feeds/cambien1",temp)
-        
-    # counter_ai = counter_ai - 1
-    # if counter_ai <=0:
-    #     counter_ai = 15
-        # AI_Run.image_capture()
     
     ai_result, image = AI_Run.ai_capture()
     if ai_result != ai_presult or counter_ai <= 0:
         ai_presult = ai_result
-        print("==========================")
-        print(ai_presult)
-        print(ai_result)
-        print("==========================")
         adaClient.publish("ChipchipFC/feeds/AI", ai_result)
         adaClient.publish("ChipchipFC/feeds/image", image)
         counter_ai = 15
